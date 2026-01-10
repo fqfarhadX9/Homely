@@ -7,6 +7,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useContext } from 'react'
 import axios from 'axios'
 import { AuthDataContext } from '../context/AuthDataContext'
+import { UserDataContext } from '../context/UserDataContext'
 // import { signInWithPopup } from 'firebase/auth'
 // import { auth, provider } from '../utils/Firebase'
 
@@ -15,6 +16,7 @@ function Login() {
     const [show, setShow] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const {userData, setUserData} = useContext(UserDataContext)
     const navigate = useNavigate()
     const { serverUrl } = useContext(AuthDataContext);
 
@@ -25,6 +27,8 @@ function Login() {
           email, password
         }, {withCredentials: true});
         console.log(response)
+        setUserData(response.data.user);
+        navigate("/");
       } catch (error) {
         console.log(error);
       }

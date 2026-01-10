@@ -94,14 +94,15 @@ const Signin = async (req, res) => {
   }
 };
 
-// const Logout = (req, res) => {
-//     res.clearCookie("token");
-//     return res.status(200).json({
-//         message: "User logged out successfully"
-//     });
-// }
+const Logout = (req, res) => {
+    res.clearCookie("token");
+    return res.status(200).json({
+        message: "User logged out successfully"
+    });
+}
 
 module.exports = { 
     Signup,
     Signin,
+    Logout
 };
