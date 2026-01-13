@@ -50,7 +50,7 @@ function Nav() {
                 <button className='absolute p-[10px] rounded-[50px] bg-[#ff0000] top-[5px] right-[3%]'><FiSearch className='text-[white] w-[20px] h-[20px]'/></button>
             </div>
             <div className='flex items-center justify-center gap-[10px] relative'>
-                <span className='text-[18px] rounded-[50px] cursor-pointer hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block'>List Your Home</span>
+                <span className='text-[18px] rounded-[50px] cursor-pointer hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block' onClick={()=>{navigate("/listingpage1"); setShowpopup(false)}}>List Your Home</span>
                 <button className='px-[20px] py-[10px] gap-[5px] border-[1px] border-[#8d8c8c] flex items-center justify-center
                 hover:shadow-lg rounded-[50px]' onClick={() => setShowpopup(prev => !prev)}>
                     <span><GiHamburgerMenu className='w-[20px] h-[20px]'/></span> 
@@ -60,10 +60,10 @@ function Nav() {
                 </button>
                 {showpopup && <div className='w-[220px] h-[250px] bg-slate-50 absolute top-[110%] right-[3%] md:right-[10%] border-[#aaa9a9] border-[1px] z-10 rounded-lg'>
                     <ul className='w-[100%] h-[100%] text-[17px] py-[10px] flex items-start justify-around flex-col'>
-                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => navigate("/login")}>Login</li>
-                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={handleLogout}>Logout</li>
+                       {!userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => navigate("/login")}>Login</li>}
+                        {userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={()=>{handleLogout; setShowpopup(false)}}>Logout</li>}
                         <div className='w-[100%] h-[1px] bg-[#c1c0c0]'></div>
-                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer'>List Your Home</li>
+                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={()=>{navigate("/listingpage1"); setShowpopup(false)}}>List Your Home</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer'>My Listing</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer'>Check Booking</li>
                     </ul>
