@@ -14,20 +14,23 @@ function Signup() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
-    const { serverUrl } = useContext(AuthDataContext);
+    const { serverUrl, loading, setLoading } = useContext(AuthDataContext);
     const {userData, setUserData} = useContext(UserDataContext);
 
     const handleSignup = async(e) => {
       e.preventDefault();
+      setLoading(true);
       try {
         const response = await axios.post(serverUrl + '/api/auth/signup', {
           name, email, password
         });
+        setLoading(false);
         console.log(response)
         setUserData(response.data.user);
         navigate("/");
 
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     }
@@ -71,7 +74,7 @@ function Signup() {
             {show && <IoEyeOutline className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] cursor-pointer' onClick={() => setShow(prev => !prev)}/>}
 
             <button className='w-[100%] h-[50px] bg-[#6060f5] rounded-lg flex items-center
-            justify-center mt-[20px] text-[17px] font-sembold'>Signup</button>
+            justify-center mt-[20px] text-[17px] font-sembold' disabled={loading}>{loading ? "Loading..." : "Signup"}</button>
             <p className='flex gap-[10px]'>You have any Account?<span className='text-[#5555f6c5]
             text-[17px] font semibold cursor-pointer' onClick={() => navigate('/login')}>Login</span></p>
           </div>

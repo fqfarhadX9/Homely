@@ -3,8 +3,10 @@ import {ListingDataContext} from "./ListingDataContext";
 import { AuthDataContext } from "./AuthDataContext";
 import { useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ListingContext = ({ children }) => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [rent, setRent] = useState(0);
@@ -17,10 +19,12 @@ const ListingContext = ({ children }) => {
     const [backendImage1, setBackendImage1] = useState(null);
     const [backendImage2, setBackendImage2] = useState(null);
     const [backendImage3, setBackendImage3] = useState(null);
+    const [adding, setAdding] = useState(false);
 
     const {serverUrl} = useContext(AuthDataContext);
 
     const handleAddListing = async () => {
+        setAdding(true);
        try {
         const formData = new FormData();
         formData.append("title", title);
@@ -36,7 +40,22 @@ const ListingContext = ({ children }) => {
         const response = await axios.post(`${serverUrl}/api/listing/add`, formData,
             {withCredentials: true,});
         console.log("Listing added:", response.data);
+        navigate('/');
+        setTitle("");
+        setDescription("");
+        setRent(0);
+        setCity("");
+        setLandmark("");
+        setCategory("");
+        setFrontendImage1(null);
+        setFrontendImage2(null);
+        setFrontendImage3(null);
+        setBackendImage1(null);
+        setBackendImage2(null);
+        setBackendImage3(null);
+        setAdding(false);
       } catch (error) {
+        setAdding(false);
         console.error("Error adding listing:", error);
       }
     }
@@ -67,6 +86,8 @@ const ListingContext = ({ children }) => {
         frontendImage3,
         setFrontendImage3,
         handleAddListing,
+        adding,
+        setAdding,
     }
     return (
         <ListingDataContext.Provider value={value}>
