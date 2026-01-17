@@ -48,10 +48,10 @@ function ListingPage2() {
                 <MdBedroomParent className='w-[30px] h-[30px] text-[black]'/> <h3>Bedroom</h3>
             </div>
 
-            <div className={`w-[180px] h-[100px] flex items-center justify-center flex-col cursor-pointer border-[2px]
+            {/* <div className={`w-[180px] h-[100px] flex items-center justify-center flex-col cursor-pointer border-[2px]
             hover:border-[#a6a5a5] text-[16px] rounded-lg ${category === "bedroom" ? "border-3 border-[#8b8b8b]" : ""}`} onClick={() => setCategory("bedroom")}>
                 <MdBedroomParent className='w-[30px] h-[30px] text-[black]'/> <h3>Bedroom</h3>
-            </div>
+            </div> */}
 
             <div className={`w-[180px] h-[100px] flex items-center justify-center flex-col cursor-pointer border-[2px] 
             hover:border-[#a6a5a5] text-[16px] rounded-lg ${category === "flat" ? "border-3 border-[#8b8b8b]" : ""}`} onClick={() => setCategory("flat")}>

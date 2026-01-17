@@ -19,14 +19,15 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { AuthDataContext } from '../context/AuthDataContext';
 import { UserDataContext } from '../context/UserDataContext';
+import { ListingDataContext } from '../context/ListingDataContext';
 
 function Nav() {
     const [showpopup, setShowpopup] = useState(false);
     const navigate = useNavigate();
     const { serverUrl } = useContext(AuthDataContext);
     const {userData, setUserData} = useContext(UserDataContext);
-
-    console.log("NAV USERDATA 👉", userData);
+    const [cat, setCat] = useState("");
+    const {listingData, setListingData, setNewListingData} = useContext(ListingDataContext);
 
 
     const handleLogout = async () => {
@@ -38,8 +39,18 @@ function Nav() {
             console.log("Logout Error:", error);
         }
     }
+
+    const handleCategory = (category) => {
+        setCat(category);
+        if(category == "trending") {
+            setNewListingData(listingData);
+        } else {
+            const filteredData = listingData.filter((listing) => listing.category == category);
+            setNewListingData(filteredData);
+        }
+    }
   return (
-    <div>
+    <div className='fixed top-0'>
         <div className='w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] md:px-[40px] flex justify-between items-center'>
             <div>
                 <img src={logo} alt="Homely Logo" className='w-[120px]' />
@@ -80,39 +91,47 @@ function Nav() {
        </div>
 
         <div className='w-[100vw] h-[80px] bg-[white] flex justify-start md:justify-center px-[15px] items-center cursor-pointer gap-[50px] overflow-auto'>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
-                <MdWhatshot className='w-[30px] h-[30px] text-[black]' />
+            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]'>
+                <MdWhatshot className='w-[30px] h-[30px] text-[black]' onClick={() => {handleCategory("trending"); setCat("");}}/>
                 <h3>Trending</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
-                <GiFamilyHouse className='w-[30px] h-[30px] text-[black]' />
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "villa" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("villa")}>
+                <GiFamilyHouse className='w-[30px] h-[30px] text-[black]'/>
                 <h3>Villa</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-nowrap'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "farmHouse" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("farmHouse")}>
                 <GiVikingLonghouse className='w-[30px] h-[30px] text-[black]' />
                 <h3>Farm House</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-nowrap'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px] 
+                ${cat == "poolHouse" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("poolHouse")}>
                 <MdOutlinePool className='w-[30px] h-[30px] text-[black]' />
                 <h3>Pool House</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "bedroom" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("bedroom")}>
                 <MdBedroomParent className='w-[30px] h-[30px] text-[black]' />
                 <h3>Rooms</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "flat" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("flat")}>
                 <TbBuildingSkyscraper className='w-[30px] h-[30px] text-[black]' />
                 <h3>Flat</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "pg" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("pg")}>
                 <IoBedOutline className='w-[30px] h-[30px] text-[black]' />
                 <h3>Pg</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "cabin" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("cabin")}>
                 <GiWoodCabin className='w-[30px] h-[30px] text-[black]' />
                 <h3>Cabins</h3>
             </div>
-            <div className='flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5]'>
+            <div className={`flex flex-col justify-center items-center hover:border-b-[1px] border-[#a6a5a5] text-[13px]
+                ${cat == "shops" ? "border-b-[1px] border-[#a6a5a5]" : ""}`} onClick={() => handleCategory("shops")} >
                 <FaShopSlash className='w-[30px] h-[30px] text-[black]' />
                 <h3>Shops</h3>
             </div>

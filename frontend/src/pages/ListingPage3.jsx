@@ -40,7 +40,7 @@ function  ListingPage3() {
       </div> 
 
       <div className='w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]'>
-        <h1 className='text-[20px] md:text-[30px] text-[#272727] text-ellipsis text-nowrap overflow-hidden'>
+        <h1 className='text-[20px] md:text-[30px] text-[#272727] text-ellipsis text-nowrap overflow-hidden px-[70px] md:px-[0px]'>
           {`In ${landmark.toUpperCase()} , ${city.toUpperCase()}`}  
         </h1>
       </div>

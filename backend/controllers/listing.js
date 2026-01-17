@@ -38,6 +38,21 @@ const addListing = async (req, res) => {
   }
 };
 
+const getListings = async (req, res) => {
+  try {
+    const listings = await Listing.find().sort({ createdAt: -1 });
+    return res.status(200).json({
+      message: "Listings fetched successfully",
+      listings
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Get listings error: ${error.message}`
+    });
+  } 
+};
+
 module.exports = {
   addListing,
-};
+  getListings 
+}

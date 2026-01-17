@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {ListingDataContext} from "./ListingDataContext";
 import { AuthDataContext } from "./AuthDataContext";
 import { useContext } from "react";
@@ -20,6 +20,8 @@ const ListingContext = ({ children }) => {
     const [backendImage2, setBackendImage2] = useState(null);
     const [backendImage3, setBackendImage3] = useState(null);
     const [adding, setAdding] = useState(false);
+    const [listingData, setListingData] = useState([]);
+    const [newListingData, setNewListingData] = useState([]);
 
     const {serverUrl} = useContext(AuthDataContext);
 
@@ -60,6 +62,20 @@ const ListingContext = ({ children }) => {
       }
     }
 
+    const getListings = async () => {
+      try {
+        const response = await axios.get(`${serverUrl}/api/listing/get`, {withCredentials: true,});
+        setListingData(response.data.listings);
+        setNewListingData(response.data.listings);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      }
+    };
+
+    useEffect(() => {
+      getListings();
+    }, [adding]);
+
     const value = {
         title,
         setTitle,
@@ -88,6 +104,10 @@ const ListingContext = ({ children }) => {
         handleAddListing,
         adding,
         setAdding,
+        listingData,  
+        setListingData,
+        newListingData,
+        setNewListingData
     }
     return (
         <ListingDataContext.Provider value={value}>
