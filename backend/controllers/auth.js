@@ -59,7 +59,7 @@ const Signin = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email }).populate("listing", "title, image1, image2, image3 description rent, category, city, landmark");
+    const user = await User.findOne({ email }).populate("listing", "title image1 image2 image3 description rent category city landmark");
 ;
     if (!user) {
       return res.status(400).json({

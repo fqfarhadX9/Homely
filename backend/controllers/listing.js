@@ -52,7 +52,26 @@ const getListings = async (req, res) => {
   } 
 };
 
+const findListingById = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      return res.status(404).json({ message: "Listing not found" });
+    }
+    return res.status(200).json({
+      message: "Listing fetched successfully",
+      listing
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Find listing by id error: ${error.message}`
+    });
+  }
+};
+
 module.exports = {
   addListing,
-  getListings 
+  getListings,
+  findListingById
 }
