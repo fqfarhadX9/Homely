@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import { UserDataContext } from '../context/UserDataContext'
 import { ListingDataContext } from '../context/ListingDataContext';
 import { useNavigate } from 'react-router-dom';
+import { FaStar } from "react-icons/fa";
 
-function Card({title, landmark, city, image1, image2, image3, rent, id}) {
+function Card({title, landmark, city, image1, image2, image3, rent, ratings, id}) {
   const {userData} = useContext(UserDataContext);
   const {handleViewCard} = useContext(ListingDataContext);
   const navigate = useNavigate();
@@ -24,7 +25,10 @@ function Card({title, landmark, city, image1, image2, image3, rent, id}) {
         </div>
 
         <div className='w-[100%] h-[33%] py-[20px] flex flex-col gap-[2px]'>
+          <div className='flex items-center justify-between text-[18px]'>
             <span className='w-[80%] text-ellipsis overflow-hidden font-semibold text-nowrap text-[#4a3434]'>In {landmark.toUpperCase()}, {city.toUpperCase()}</span>
+            <span className='flex items-center justify-center gap-[5px]'><FaStar className='text-[#eb6262]'/>{ratings}</span>
+          </div>
             <span className='w-[80%] text-ellipsis overflow-hidden text-[15px] text-nowrap'>{title.toUpperCase()}</span>
             <span className='text-[16px] font-semibold text-[#986b6b]'>Rs.{rent}/day</span>
         </div>

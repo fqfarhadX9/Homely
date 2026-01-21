@@ -6,6 +6,7 @@ const userRouter = require('./routes/user.js');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const listingRouter = require('./routes/listing.js');
+const bookingRouter = require('./routes/booking.js');
 dotenv.config();
 
 const port = process.env.PORT || 8000;
@@ -21,6 +22,7 @@ app.use(cors({
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/listing", listingRouter)
+app.use("/api/booking", bookingRouter);
 
 app.listen(port, () => {
     connectDB();
