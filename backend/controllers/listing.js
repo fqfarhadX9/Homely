@@ -70,8 +70,68 @@ const findListingById = async (req, res) => {
   }
 };
 
+const updateListing = async (req, res) => {
+  try {
+    const {id} = req.params;
+    let image1, image2, image3;
+    const { title, description, rent, city,  landmark, category } = req.body;
+    if(req.files.image1) {
+      image1 = await uploadOnCloudinary(req.files.image1[0].path);
+    }
+    if(req.files.image2) {
+       image2 = await uploadOnCloudinary(req.files.image2[0].path)
+    }
+    if(req.files.image3) {
+      image3 = await uploadOnCloudinary(req.files.image3[0].path);
+    }
+    const listing =  await Listing.findByIdAndUpdate(id,{
+        title,
+        description,
+        rent,
+        city,
+        landmark,
+        category,
+        image1,
+        image2,
+        image3,
+    }, { new: true });
+
+    return res.status(201).json({
+      message: "Listing added successfully",
+      listing
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message :`Addlisting error: ${error.message}` 
+    });
+  }
+}
+
+const deleteListing = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const listing = await Listing.findByIdAndDelete(id);
+    
+    const user = await User.findByIdAndUpdate(listing.host, { $pull: { listing: listing._id } }, { new: true });
+    if(!user) {
+      return res.status(404).json({ message: "User not found to delete listing" });
+    }
+    return res.status(200).json({
+      message: "Listing deleted successfully",
+      listing
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Delete listing error: ${error.message}`
+    });
+  }
+}
+
 module.exports = {
   addListing,
   getListings,
-  findListingById
+  findListingById,
+  updateListing,
+  deleteListing
 }

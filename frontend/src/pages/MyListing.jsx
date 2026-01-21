@@ -8,7 +8,7 @@ function MyListing() {
     const navigate = useNavigate();
     const {userData} = useContext(UserDataContext);
     console.log("new user data", userData);
-    const listings = userData.user.listing;
+    const listings = userData?.user?.listing || [];
     console.log("listings: ", listings)
   return (
     <div className='w-[100%] min-h-[100vh] flex items-center justify-start flex-col gap-[50px] relative'>

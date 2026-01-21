@@ -20,8 +20,11 @@ const ListingContext = ({ children }) => {
     const [backendImage2, setBackendImage2] = useState(null);
     const [backendImage3, setBackendImage3] = useState(null);
     const [adding, setAdding] = useState(false);
+    const [updating, setUpdating] = useState(false);
+    const [deleteting, setDeleting] = useState(false);
     const [listingData, setListingData] = useState([]);
     const [newListingData, setNewListingData] = useState([]);
+    const [cardDetails, setCardDetails] = useState(null);
 
     const {serverUrl} = useContext(AuthDataContext);
 
@@ -72,9 +75,20 @@ const ListingContext = ({ children }) => {
       }
     };
 
+    const handleViewCard = async (id) => {
+      try {
+        const response = await axios.get(`${serverUrl}/api/listing/findlistingbyid/${id}`, {withCredentials: true,});
+        console.log("Listing fetched by ID:", response.data.listing);
+        setCardDetails(response.data.listing);
+        navigate('/viewcard');
+      } catch (error) {
+        console.error("Error fetching listing by ID:", error);
+      }
+    }
+
     useEffect(() => {
       getListings();
-    }, [adding]);
+    }, [adding, updating, deleteting]);
 
     const value = {
         title,
@@ -102,12 +116,15 @@ const ListingContext = ({ children }) => {
         frontendImage3,
         setFrontendImage3,
         handleAddListing,
-        adding,
-        setAdding,
+        adding,setAdding,
         listingData,  
         setListingData,
         newListingData,
-        setNewListingData
+        setNewListingData,
+        handleViewCard,
+        cardDetails,setCardDetails,
+        updating,setUpdating,
+        deleteting, setDeleting
     }
     return (
         <ListingDataContext.Provider value={value}>

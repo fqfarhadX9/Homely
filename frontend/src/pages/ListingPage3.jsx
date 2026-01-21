@@ -69,7 +69,7 @@ function  ListingPage3() {
         <div className='w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] '>
           {`Rs.${rent}/day `}
         </div>
-        <button className='px-[50px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg
+        <button className='px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg text-nowrap
         absolute right-[5%] bottom-[5%]' onClick={handleAddListing} disabled={adding}>{adding ? "Adding..." : "Add Listing"}</button>
     </div>
   )
