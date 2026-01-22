@@ -42,6 +42,77 @@ const createBooking = async (req, res) => {
   }
 };
 
+const cancelBooking = async (req, res) => {
+  try {
+    const { id } = req.params; // bookingId
+
+    // 1️⃣ find booking
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // 2️⃣ free listing
+    await Listing.findByIdAndUpdate(booking.listing, {
+      isBooked: false,
+      guest: null
+    });
+
+    // 3️⃣ remove booking from user
+    await User.findByIdAndUpdate(
+      booking.guest,
+      { $pull: { booking: booking._id } }
+    );
+
+    // 4️⃣ delete booking
+    await Booking.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: "Booking cancelled successfully"
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: `Cancel booking error: ${error.message}`
+    });
+  }
+};
+
+const rateBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const { rating } = req.body;
+    if (rating < 1 || rating > 5) {
+       return res.status(400).json({ message: "Invalid rating" });
+    }
+
+
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // only guest can rate
+    if (booking.guest.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not allowed" });
+    }
+
+    booking.rating = rating;
+    await booking.save();
+
+    return res.status(200).json({
+      message: "Rating added successfully",
+      booking
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 module.exports = {
-  createBooking
+  createBooking,
+  cancelBooking,
+  rateBooking
 };

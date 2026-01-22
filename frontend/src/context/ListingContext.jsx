@@ -117,14 +117,15 @@ const ListingContext = ({ children }) => {
         setFrontendImage3,
         handleAddListing,
         adding,setAdding,
-        listingData,  
+        listingData, 
         setListingData,
         newListingData,
         setNewListingData,
         handleViewCard,
         cardDetails,setCardDetails,
         updating,setUpdating,
-        deleteting, setDeleting
+        deleteting, setDeleting,
+        getListings
     }
     return (
         <ListingDataContext.Provider value={value}>

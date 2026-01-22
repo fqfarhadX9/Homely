@@ -6,6 +6,7 @@ import { UserDataContext } from '../context/UserDataContext';
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import { AuthDataContext } from '../context/AuthDataContext';
+import { BookingDataContext } from '../context/BookingDataContext';
 
 function ViewCard() {
     const navigate = useNavigate();
@@ -25,6 +26,25 @@ function ViewCard() {
     const {updating, setUpdating} = useContext(ListingDataContext);
     const {deleteting, setDeleting} = useContext(ListingDataContext);
     const [minDate, setMinDate] = useState("");
+
+    const {checkIn, setCheckIn, checkOut, setCheckOut, total, setTotal, nights, setNights, bookingData, setBookingData,
+        handleBooking, booking} = useContext(BookingDataContext);
+
+    useEffect(() => {
+      if(checkIn && checkOut) {
+        const inDate = new Date(checkIn);
+        const outDate = new Date(checkOut);
+        let n = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+        setNights(n);
+        const platformCharges = (cardDetails.rent * (7/100));
+        const tax = (cardDetails.rent * (5/100));
+        const total = (cardDetails.rent * n) + platformCharges + tax;
+        setTotal(total);
+      } else {
+        setTotal(0);
+      }
+    }, [checkIn, checkOut,]);
+
 
     const handleUpdateListing = async () => {
        setUpdating(true);
@@ -135,7 +155,7 @@ function ViewCard() {
                     </button>
                 ) : (
                    <button className='px-[30px] py-[10px] mx-[75px] bg-[red] text-white text-[18px] md:px-[100px] rounded-lg text-nowrap'  onClick={()=>setBookingPoppup(prev => !prev)}>
-                    Booking
+                    Reserve
                    </button>
                 )}
             </div>
@@ -214,22 +234,22 @@ function ViewCard() {
                <RxCross2 className='w-[50px] h-[50px] bg-[#f14242] cursor-pointer absolute top-[5%]
                left-[20px] rounded-[50%] flex items-center justify-center' onClick={() => setBookingPoppup(false)}/>
                <form action="" className='max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f3f1f1] p-[20px] rounded-lg flex items-center justify-start
-               flex-col gap-[10px] border-[1px] border-[#dedddd]'>
+               flex-col gap-[10px] border-[1px] border-[#dedddd]' onSubmit={(e) => e.preventDefault()}>
                 <h1 className='w-[100%] flex items-center justify-center py-[10px] text-[25px] border-b-[1px] border-[#a3a3a3]'>Confirm & Book</h1>
                 <div className='w-[100%] h-[70%] mt-[10px] rounded-lg p-[10px]'>
                   <h3 className='text-[19px] font-semibold'>Your Trip</h3>
                   <div className='w-[90%] flex items-center justify-start gap-[10px] mt-[20px] md:justify-center flex-col md:flex-row md:items-start'>
                         <label htmlFor="checkin" className='text-[20px]'>CheckIn</label>
-                        <input type="date" id="checkin" min={minDate} className='w-[200px] h-[40px] border-[2px] border-[#555656] rounded-[10px] bg-transparent text-[15px] md:text-[18px] px-[10px]
-                         px-[20px] text-black'/>
+                        <input type="date" id="checkin" min={minDate} className='w-[200px] h-[40px] border-[2px] border-[#555656] rounded-[10px] bg-transparent 
+                        text-[15px] md:text-[18px] px-[10px] px-[20px] text-black' onChange={(e) => setCheckIn(e.target.value)} value={checkIn}/>
                   </div>
                   <div className='w-[90%] flex items-center justify-start gap-[10px] mt-[40px] md:justify-center flex-col md:flex-row md:items-start'>
-                        <label htmlFor="checkin" className='text-[20px]'>CheckOut</label>
-                        <input type="date" id="checkin" min={minDate} className='w-[200px] h-[40px] border-[2px] border-[#555656] rounded-[10px] bg-transparent text-[15px] md:text-[18px] px-[10px]
-                         px-[20px] text-black'/>
+                        <label htmlFor="checkout" className='text-[20px]'>CheckOut</label>
+                        <input type="date" id="checkout" min={minDate} className='w-[200px] h-[40px] border-[2px] border-[#555656] rounded-[10px] bg-transparent 
+                        text-[15px] md:text-[18px] px-[10px] px-[20px] text-black' onChange={(e) => setCheckOut(e.target.value)} value={checkOut}/>
                   </div>
                   <div className='w-[100%] flex items-center justify-center'>
-                     <button className='px-[80px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap mt-[30px]'>Book Now</button>
+                     <button className='px-[80px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap mt-[30px]' onClick={() =>handleBooking(cardDetails._id)} disabled={booking}>{booking ? "Booking..." : "Book Now"}</button>
                   </div>
                 </div>
                </form>
@@ -250,8 +270,29 @@ function ViewCard() {
                   </div>
                 </div>
 
-                <div className='w-[95%] h-[60%] border-[1px] border-[#9b9a9a] rounded-lg flex justify-start items-start p-[20px] gap-[15px] flex-col'> </div>
-               </div>
+                <div className='w-[95%] h-[60%] border-[1px] border-[#9b9a9a] rounded-lg flex justify-start items-start p-[20px] gap-[15px] flex-col'>
+                  <h1 className='text-[22px] font-semibold'>Trip Details</h1>
+                  <p className='w-[100%] flex items-center justify-between px-[20px]'>
+                    <span className='font-semibold'>{`₹${cardDetails.rent} X ${nights} nights`}</span>
+                    <span>{cardDetails.rent * nights}</span>
+                  </p>
+
+                  <p className='w-[100%] flex items-center justify-between px-[20px]'>
+                    <span className='font-semibold'>Homely Charges</span>
+                    <span>{cardDetails.rent * (7)/100}</span>
+                  </p>
+
+                  <p className='w-[100%] flex items-center justify-between px-[20px] border-b-[1px] border-gray-500 pb-[10px]'>
+                    <span className='font-semibold'>Tax</span>
+                    <span>{cardDetails.rent * (5)/100}</span>
+                  </p>
+
+                  <p className='w-[100%] flex items-center justify-between px-[20px]'>
+                    <span className='font-semibold'>Total Price</span>
+                    <span>{total}</span>
+                  </p>
+                </div>
+                </div>
             </div>}
         </div>
   )

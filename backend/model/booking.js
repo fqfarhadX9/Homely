@@ -31,7 +31,12 @@ const bookingSchema = new mongoose.Schema({
     totalRent: {
         type: Number,
         required: true
+    },
+    rating: {
+        type: Number,
+        default: 0
     }
+
 }, { timestamps: true });
 
 const Booking = mongoose.model('Booking', bookingSchema);

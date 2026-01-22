@@ -9,6 +9,8 @@ import ListingPage3 from './pages/ListingPage3'
 import { UserDataContext } from './context/UserDataContext'
 import MyListing from './pages/MyListing'
 import ViewCard from './pages/ViewCard'
+import MyBooking from './pages/MyBooking'
+import BookingDetails from './pages/BookingDetails'
 
 function App() {
   const {userData} = useContext(UserDataContext);
@@ -23,6 +25,12 @@ function App() {
         <Route path="/listingpage3" element={userData ? <ListingPage3 /> : <Login />} />
         <Route path="/mylisting" element={userData ? <MyListing /> : <Login />} />
         <Route path="/viewcard" element={userData ? <ViewCard /> : <Login />} />
+        <Route path="/mybooking" element={userData ? <MyBooking /> : <Home />} />
+         <Route
+  path="/booked/:id"
+  element={userData ? <BookingDetails /> : <Home />}
+/>
+
       </Routes>
     </div>
   )

@@ -50,7 +50,7 @@ function Nav() {
         }
     }
   return (
-    <div className='fixed top-0'>
+    <div className='fixed top-0 bg-[white] z-[20]'>
         <div className='w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] md:px-[40px] flex justify-between items-center'>
             <div>
                 <img src={logo} alt="Homely Logo" className='w-[120px]' />
@@ -76,7 +76,7 @@ function Nav() {
                         <div className='w-[100%] h-[1px] bg-[#c1c0c0]'></div>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/listingpage1"); setShowpopup(false)}}>List Your Home</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/mylisting"); setShowpopup(false)}}>My Listing</li>
-                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer'>Check Booking</li>
+                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/mybooking"); setShowpopup(false)}}>My Booking</li>
                     </ul>
                 </div>}
             </div>
