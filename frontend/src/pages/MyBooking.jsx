@@ -32,7 +32,7 @@ function MyBooking() {
       <div className='w-[100%] h-[90%] flex items-center justify-center gap-[25px] flex-wrap mt-[30px]'>
           {bookings.map((book) => (
   <Card
-  key={book._id + book.rating}
+  key={book._id }
   bookingId={book._id}
   title={book.listing?.title}
   landmark={book.listing?.landmark}
@@ -41,7 +41,7 @@ function MyBooking() {
   image2={book.listing?.image2}
   image3={book.listing?.image3}
   rent={book.listing?.rent}
-  ratings={book.rating}   // ⭐ IMPORTANT
+  ratings={book.listing?.ratings}
   host={book.listing?.host}
   isBooked={true}
 />
