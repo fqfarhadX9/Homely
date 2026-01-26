@@ -33,13 +33,15 @@ function Nav() {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post(serverUrl + '/api/auth/logout', {withCredentials: true});
+            const response = await axios.post(`${serverUrl}/api/auth/logout`,
+                {},
+                {withCredentials: true});
             console.log("Logout endpoint triggered:", response);
             setUserData(null);
             toast.success("Logged out successfully");
             setTimeout(() => {
              navigate("/");
-        }   , 1200);
+        }   , 1000);
         } catch (error) {
             console.log("Logout Error:", error);
         }
