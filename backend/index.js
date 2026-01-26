@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://homely-fkpn.onrender.com',
     credentials: true,
 }))
 
@@ -26,5 +26,5 @@ app.use("/api/booking", bookingRouter);
 
 app.listen(port, () => {
     connectDB();
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
 });
