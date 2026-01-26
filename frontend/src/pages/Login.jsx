@@ -24,11 +24,11 @@ function Login() {
           email, password
         }, {withCredentials: true});
         setLoading(false);
-        setUserData(response.data.user);
+        setUserData({ user: response.data.user });
         toast.success("Login Successfully");
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 1000);
       } catch (error) {
         setLoading(false);
         console.log(error);
