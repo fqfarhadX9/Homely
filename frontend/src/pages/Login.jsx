@@ -28,7 +28,7 @@ function Login() {
         toast.success("Login Successfully");
         setTimeout(() => {
           navigate("/");
-        }, 800);
+        }, 2000);
       } catch (error) {
         setLoading(false);
         console.log(error);

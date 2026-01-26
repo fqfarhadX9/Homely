@@ -36,7 +36,7 @@ const BookingDetails = () => {
       toast.success("Rating Submitted");
       setTimeout(() => {
           navigate("/");
-        }, 800);
+        }, 600);
     } catch (error) {
       console.log("Rating submission failed:", error);
       toast.error(error.response?.data?.message || "Rating Submission Failed");

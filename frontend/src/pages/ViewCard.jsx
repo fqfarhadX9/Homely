@@ -63,8 +63,10 @@ function ViewCard() {
         const response = await axios.post(`${serverUrl}/api/listing/update/${cardDetails._id}`, formData,
             {withCredentials: true,});
         console.log("Listing updated:", response.data);
-        navigate('/');
         toast.success("Listing Updated Successfully");
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
         setTitle("");
         setDescription("");
         setRent("");
@@ -99,8 +101,10 @@ function ViewCard() {
         try {
             const response = await axios.delete(`${serverUrl}/api/listing/delete/${cardDetails._id}`, {withCredentials: true});
             console.log("Listing deleted:", response.data);
-            navigate('/');
             toast.success("Listing Deleted Successfully");
+            setTimeout(() => {
+              navigate('/');
+            }, 1000);
             setDeleting(false);
         } catch (error) {
             setDeleting(false);
@@ -155,11 +159,11 @@ function ViewCard() {
             </div>
             <div className='w-[95%] h-[50px] flex items-center justify-start px-[40px]'>
                 {cardDetails?.host === userData?.user?._id ? (
-                   <button className='px-[30px] py-[10px] mx-[75px] bg-[red] text-white text-[18px] md:px-[100px] rounded-lg text-nowrap' onClick={()=>setUpdatePoppup(prev => !prev)}>
+                   <button className='px-[30px] py-[10px] mx-[75px] bg-red-500 text-white text-[18px] md:px-[100px] rounded-lg text-nowrap' onClick={()=>setUpdatePoppup(prev => !prev)}>
                      Edit Listing
                     </button>
                 ) : (
-                   <button className='px-[30px] py-[10px] mx-[75px] bg-[red] text-white text-[18px] md:px-[100px] rounded-lg text-nowrap'  onClick={()=>setBookingPoppup(prev => !prev)}>
+                   <button className='px-[30px] py-[10px] mx-[75px] bg-red-500 text-white text-[18px] md:px-[100px] rounded-lg text-nowrap'  onClick={()=>setBookingPoppup(prev => !prev)}>
                     Reserve
                    </button>
                 )}
@@ -171,7 +175,7 @@ function ViewCard() {
 
           <form action="" className='max-w-[900px] w-[90%] h-[550px] flex  items-center justify-start flex-col 
                   gap-[10px] overflow-auto mt-[50px] text-white bg-[#272727] p-[20px] rounded-lg' onSubmit={(e) => e.preventDefault()}>
-                      <div className='w-[200px] h-[50px] text-[20px] bg-[#f14242] text-[white] flex items-center justify-center
+                      <div className='w-[200px] h-[50px] text-[20px] bg-red-500 text-[white] flex items-center justify-center
                       rounded-[30px] absolute top-[5%] right-[10px] shadow-lg'>Update Your Listing</div>
                       <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
                         <label htmlFor="title" className='text-[20px]'>Title</label>
@@ -225,10 +229,10 @@ function ViewCard() {
                       </div>
           
                       <div className='w-[100%] flex items-center justify-center gap-[30px] mt-[20px]'>
-                        <button className='px-[10px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap' 
+                        <button className='px-[10px] py-[10px] bg-red-500 text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap' 
                         onClick={handleUpdateListing}>{updating ? "Updating..." : "Update Listing"}</button>
 
-                        <button className='px-[10px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap' 
+                        <button className='px-[10px] py-[10px] bg-red-500 text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap' 
                         onClick={handleDeleteListing} disabled={deleteting}>{deleteting ? "Deleting..." : "Delete Listing"}</button>
                       </div>
                   </form>
@@ -254,7 +258,7 @@ function ViewCard() {
                         text-[15px] md:text-[18px] px-[10px] px-[20px] text-black' onChange={(e) => setCheckOut(e.target.value)} value={checkOut}/>
                   </div>
                   <div className='w-[100%] flex items-center justify-center'>
-                     <button className='px-[80px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap mt-[30px]' onClick={() =>handleBooking(cardDetails._id)} disabled={booking}>{booking ? "Booking..." : "Book Now"}</button>
+                     <button className='px-[80px] py-[10px] bg-red-500 text-[white] text-[18px] md:px-[100px] rounded-lg md:text-[18px] text-nowrap mt-[30px]' onClick={() =>handleBooking(cardDetails._id)} disabled={booking}>{booking ? "Booking..." : "Book Now"}</button>
                   </div>
                 </div>
                </form>
