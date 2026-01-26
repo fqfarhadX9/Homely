@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import { AuthDataContext } from '../context/AuthDataContext';
 import { BookingDataContext } from '../context/BookingDataContext';
+import { toast } from 'react-toastify';
 
 function ViewCard() {
     const navigate = useNavigate();
@@ -63,6 +64,7 @@ function ViewCard() {
             {withCredentials: true,});
         console.log("Listing updated:", response.data);
         navigate('/');
+        toast.success("Listing Updated Successfully");
         setTitle("");
         setDescription("");
         setRent("");
@@ -75,6 +77,7 @@ function ViewCard() {
       } catch (error) {
         setUpdating(false);
         console.error("Error updating listing:", error);
+        toast.error(error.response?.data?.message || "Error Updating Listing");
       }
     }
 
@@ -97,10 +100,12 @@ function ViewCard() {
             const response = await axios.delete(`${serverUrl}/api/listing/delete/${cardDetails._id}`, {withCredentials: true});
             console.log("Listing deleted:", response.data);
             navigate('/');
+            toast.success("Listing Deleted Successfully");
             setDeleting(false);
         } catch (error) {
             setDeleting(false);
-           console.error("Error deleting listing:", error);
+            console.error("Error deleting listing:", error);
+            toast.error(error.response?.data?.message || "Error Deleting Listing");
         }
     }
 

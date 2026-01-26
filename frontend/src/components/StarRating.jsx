@@ -7,9 +7,7 @@ const StarRating = ({ rating, setRating }) => {
         <FaStar
           key={star}
           size={28}
-          className={`cursor-pointer ${
-            star <= rating ? "text-yellow-400" : "text-gray-300"
-          }`}
+          className={star <= rating ? "text-yellow-400" : "text-gray-300"}
           onClick={() => setRating(star)}
         />
       ))}

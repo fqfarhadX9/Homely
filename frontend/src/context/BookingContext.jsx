@@ -5,6 +5,7 @@ import { AuthDataContext } from './AuthDataContext';
 import { UserDataContext } from './UserDataContext';
 import { ListingDataContext } from './ListingDataContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function BookingContext({children}) {
     const [checkIn, setCheckIn] = useState("");
@@ -27,11 +28,13 @@ function BookingContext({children}) {
              console.log("Booking Successful:", result.data);
             setBookingData(result.data.booking);
             setBooking(false);
-            navigate(`/booked/${result.data.booking._id}`);
+            navigate(`/booked`);
+            toast.success("Booking Successful");
         } catch (error) {
             console.log(error);
             setBookingData(null);
             setBooking(false);
+            toast.error(error.response?.data?.message || "Booking Failed");
         }
     }
 
@@ -41,8 +44,10 @@ function BookingContext({children}) {
             await fetchCurrentUser();
             await getListings();
             console.log("Booking Cancelled:", result.data);
+            toast.success("Booking Cancelled");
         } catch (error) {
             console.log(error);
+            toast.error(error.response?.data?.message || "Cancellation Failed");
         }
     }
 

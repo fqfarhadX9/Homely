@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import logo from '../assets/Homely (1).png'
 // import logo2 from '../assets/Homely.png'
 import { FiSearch } from "react-icons/fi";
@@ -27,7 +27,9 @@ function Nav() {
     const { serverUrl } = useContext(AuthDataContext);
     const {userData, setUserData} = useContext(UserDataContext);
     const [cat, setCat] = useState("");
-    const {listingData, setListingData, setNewListingData} = useContext(ListingDataContext);
+    const [searchInput, setSearchInput] = useState("");
+    const {listingData, setListingData, setNewListingData, handleSearch, searchData, handleViewCard} = useContext(ListingDataContext);
+
 
 
     const handleLogout = async () => {
@@ -49,6 +51,18 @@ function Nav() {
             setNewListingData(filteredData);
         }
     }
+
+    const handleClick = (id) => {
+      if(userData?.user) {
+        handleViewCard(id);
+    } else {
+      navigate('/login');
+    }
+  }
+
+    useEffect(() => {
+        handleSearch(searchInput);
+    }, [searchInput]);
   return (
     <div className='fixed top-0 bg-[white] z-[20]'>
         <div className='w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] md:px-[40px] flex justify-between items-center'>
@@ -57,11 +71,11 @@ function Nav() {
             </div>
             <div className='w-[35%] relative hidden md:block'>
                 <input type="text" className='w-[100%] px-[30px] py-[10px] border-[2px] border-[#bdbaba] outline-none overflow-auto
-                rounded-[30px] text-[17px]' placeholder='Any Where  |  Any Location  |  Any City '/>
+                rounded-[30px] text-[17px]' placeholder='Any Where  |  Any Location  |  Any City' onChange={(e) => setSearchInput(e.target.value)}  value={searchInput}/>
                 <button className='absolute p-[10px] rounded-[50px] bg-[#ff0000] top-[5px] right-[3%]'><FiSearch className='text-[white] w-[20px] h-[20px]'/></button>
             </div>
             <div className='flex items-center justify-center gap-[10px] relative'>
-                <span className='text-[18px] rounded-[50px] cursor-pointer hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block' onClick={()=>{navigate("/listingpage1"); setShowpopup(false)}}>List Your Home</span>
+                <span className='text-[18px] rounded-[50px] cursor-pointer hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block' onClick={()=>{navigate("/listingpage1"); setShowpopup(false)}}>Become a Host</span>
                 <button className='px-[20px] py-[10px] gap-[5px] border-[1px] border-[#8d8c8c] flex items-center justify-center
                 hover:shadow-lg rounded-[50px]' onClick={() => setShowpopup(prev => !prev)}>
                     <span><GiHamburgerMenu className='w-[20px] h-[20px]'/></span> 
@@ -74,18 +88,27 @@ function Nav() {
                        {!userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => navigate("/login")}>Login</li>}
                         {userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={()=>{handleLogout; setShowpopup(false)}}>Logout</li>}
                         <div className='w-[100%] h-[1px] bg-[#c1c0c0]'></div>
-                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/listingpage1"); setShowpopup(false)}}>List Your Home</li>
+                        <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/listingpage1"); setShowpopup(false)}}>Become a Host</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/mylisting"); setShowpopup(false)}}>My Listing</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/mybooking"); setShowpopup(false)}}>My Booking</li>
                     </ul>
                 </div>}
             </div>
+
+            {searchData?.length > 0 && <div className='w-[100vw] h-[450px] flex flex-col gap-[20px] absolute top-[50%] overflow-auto left-[0] justify-start items-center'>
+                <div className='max-w-[700px] w-[100vw] h-[300px] overflow-hidden flex flex-col bg-[#fefdfd] p-[20px] rounded-lg border-[1px]
+                border-[#a2a1a1] cursor-pointer'>
+                    {searchData.map((item) => (
+                        <div className='border-b border-[black] p-[10px]' onClick={() => handleClick(item._id)}>{item.title} In {item.landmark}, {item.city}</div>
+                    ))}
+                </div>
+            </div>}
         </div>
 
         <div className='w-[100%] h-[60px] flex items-center justify-center block md:hidden'>
          <div className='w-[80%] relative'>
             <input type="text" className='w-[100%] px-[30px] py-[10px] border-[2px] border-[#bdbaba] outline-none overflow-auto
-            rounded-[30px] text-[17px]' placeholder='Any Where  |  Any Location  |  Any City '/>
+            rounded-[30px] text-[17px]' placeholder='Any Where  |  Any Location  |  Any City' onChange={(e) => setSearchInput(e.target.value)} value={searchInput}/>
             <button className='absolute p-[10px] rounded-[50px] bg-[#ff0000] top-[5px] right-[3%]'><FiSearch className='text-[white] w-[20px] h-[20px]'/></button>
         </div>
        </div>

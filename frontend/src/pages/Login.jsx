@@ -8,6 +8,7 @@ import { useContext } from 'react'
 import axios from 'axios'
 import { AuthDataContext } from '../context/AuthDataContext'
 import { UserDataContext } from '../context/UserDataContext'
+import { toast } from 'react-toastify'
 // import { signInWithPopup } from 'firebase/auth'
 // import { auth, provider } from '../utils/Firebase'
 
@@ -30,10 +31,14 @@ function Login() {
         setLoading(false);
         console.log(response)
         setUserData(response.data.user);
-        navigate("/");
+        toast.success("Login Successfully");
+        setTimeout(() => {
+          navigate("/");
+        }, 800);
       } catch (error) {
         setLoading(false);
         console.log(error);
+        toast.error(error.response?.data?.message || "Login Failed");
       }
     }
 //   const googleSignin = async() => {

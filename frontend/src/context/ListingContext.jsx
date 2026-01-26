@@ -4,6 +4,7 @@ import { AuthDataContext } from "./AuthDataContext";
 import { useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ListingContext = ({ children }) => {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const ListingContext = ({ children }) => {
     const [listingData, setListingData] = useState([]);
     const [newListingData, setNewListingData] = useState([]);
     const [cardDetails, setCardDetails] = useState(null);
+    const [searchData, setSearchData] = useState([]);
 
     const {serverUrl} = useContext(AuthDataContext);
 
@@ -46,6 +48,7 @@ const ListingContext = ({ children }) => {
             {withCredentials: true,});
         console.log("Listing added:", response.data);
         navigate('/');
+        toast.success("Listing Added Successfully");
         setTitle("");
         setDescription("");
         setRent(0);
@@ -62,6 +65,7 @@ const ListingContext = ({ children }) => {
       } catch (error) {
         setAdding(false);
         console.error("Error adding listing:", error);
+        toast.error(error.response?.data?.message || "Error Adding Listing");
       }
     }
 
@@ -83,6 +87,17 @@ const ListingContext = ({ children }) => {
         navigate('/viewcard');
       } catch (error) {
         console.error("Error fetching listing by ID:", error);
+      }
+    }
+
+    const handleSearch = async(data) => {
+      try {
+        const response = await axios.get(`${serverUrl}/api/listing/search?query=${data}`, {withCredentials: true,});
+        console.log("Search results:", response.data.listings);
+        setSearchData(response.data.listings);
+      } catch (error) {
+        setSearchData(null);
+        console.error("Error searching listings:", error);
       }
     }
 
@@ -125,7 +140,8 @@ const ListingContext = ({ children }) => {
         cardDetails,setCardDetails,
         updating,setUpdating,
         deleteting, setDeleting,
-        getListings
+        getListings, handleSearch,
+        searchData, 
     }
     return (
         <ListingDataContext.Provider value={value}>
