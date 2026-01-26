@@ -128,10 +128,37 @@ const deleteListing = async (req, res) => {
   }
 }
 
+const searchListings = async (req, res) => {
+  try {
+    const { query } = req.query;
+    if(!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+
+    const listings = await Listing.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { city: { $regex: query, $options: 'i' } },
+        { landmark: { $regex: query, $options: 'i' } }
+      ]
+    });
+
+    return res.status(200).json({
+      message: "Listings searched successfully",
+      listings
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Search listings error: ${error.message}`
+    });
+  }
+}
+
 module.exports = {
   addListing,
   getListings,
   findListingById,
   updateListing,
-  deleteListing
+  deleteListing,
+  searchListings
 }
