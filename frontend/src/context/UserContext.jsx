@@ -13,7 +13,7 @@ function UserContext({ children }) {
         `${serverUrl}/api/user/currentuser`,
         { withCredentials: true }
       );
-      console.log(res.data);
+      // console.log(res.data);
       setUserData(res.data);
     } catch (err) {
       setUserData(null);

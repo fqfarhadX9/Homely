@@ -25,7 +25,7 @@ function BookingContext({children}) {
             const result = await axios.post(serverUrl + `/api/booking/create/${id}`, {checkIn, checkOut, totalRent: total}, {withCredentials: true});
             await fetchCurrentUser();
             await getListings();
-            console.log("Booking Successful:", result.data);
+            // console.log("Booking Successful:", result.data);
             setBookingData(result.data.booking);
             setBooking(false);
             navigate(`/booked`);

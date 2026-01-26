@@ -21,7 +21,7 @@ const BookingDetails = () => {
 
   const handleStar = (value) => {
     setStar(value);
-    console.log("you rated", value);
+    // console.log("you rated", value);
   }
 
   const handleRating = async (id) => {
@@ -58,8 +58,6 @@ const BookingDetails = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row gap-6">
-          
-          {/* IMAGE + TITLE */}
           <div className="md:w-[240px] w-full order-1 md:order-2">
             <img
               src={bookingData.listing?.image1}
@@ -71,7 +69,6 @@ const BookingDetails = () => {
             </p>
           </div>
 
-          {/* BOOKING INFO */}
           <div className="flex-1 order-2 md:order-1">
             <p><b>Booking Id:</b> {bookingData._id}</p>
             <p><b>Your Email:</b> {bookingData.guest?.email}</p>

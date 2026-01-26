@@ -28,7 +28,7 @@ function Nav() {
     const {userData, setUserData} = useContext(UserDataContext);
     const [cat, setCat] = useState("");
     const [searchInput, setSearchInput] = useState("");
-    const {listingData, setListingData, setNewListingData, handleSearch, searchData, handleViewCard} = useContext(ListingDataContext);
+    const {listingData, setNewListingData, handleSearch, searchData, handleViewCard} = useContext(ListingDataContext);
 
 
 

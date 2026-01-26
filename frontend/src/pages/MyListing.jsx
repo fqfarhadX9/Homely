@@ -13,10 +13,7 @@ function MyListing() {
   return (
     <div className="w-full min-h-screen flex flex-col px-[20px]">
       
-      {/* HEADER */}
       <div className="w-full relative mt-[30px] flex items-center">
-        
-        {/* Arrow - LEFT, SAME LINE */}
         <div
           className="w-[45px] h-[45px] bg-[#f14242] cursor-pointer
           rounded-full flex items-center justify-center
@@ -26,7 +23,6 @@ function MyListing() {
           <FaArrowLeftLong className="w-[22px] h-[22px] text-white" />
         </div>
 
-        {/* Title - CENTER */}
         <div className="mx-auto w-[60%] md:w-[600px] border-[2px] border-[#908c8c]
           p-[12px] text-[24px] sm:text-[26px] md:text-[30px]
           rounded-md text-[#613b3b] font-semibold
@@ -35,8 +31,7 @@ function MyListing() {
           My Listing
         </div>
       </div>
-
-      {/* LISTINGS */}
+      
       <div className="w-full flex items-center justify-center gap-[25px] flex-wrap mt-[40px]">
         {listings.length > 0 ? (
           listings.map((list) => (

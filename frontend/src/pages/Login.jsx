@@ -29,7 +29,7 @@ function Login() {
           email, password
         }, {withCredentials: true});
         setLoading(false);
-        console.log(response)
+        // console.log(response)
         setUserData(response.data.user);
         toast.success("Login Successfully");
         setTimeout(() => {

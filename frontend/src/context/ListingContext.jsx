@@ -82,7 +82,7 @@ const ListingContext = ({ children }) => {
     const handleViewCard = async (id) => {
       try {
         const response = await axios.get(`${serverUrl}/api/listing/findlistingbyid/${id}`, {withCredentials: true,});
-        console.log("Listing fetched by ID:", response.data.listing);
+        // console.log("Listing fetched by ID:", response.data.listing);
         setCardDetails(response.data.listing);
         navigate('/viewcard');
       } catch (error) {
@@ -93,7 +93,7 @@ const ListingContext = ({ children }) => {
     const handleSearch = async(data) => {
       try {
         const response = await axios.get(`${serverUrl}/api/listing/search?query=${data}`, {withCredentials: true,});
-        console.log("Search results:", response.data.listings);
+        // console.log("Search results:", response.data.listings);
         setSearchData(response.data.listings);
       } catch (error) {
         setSearchData(null);
