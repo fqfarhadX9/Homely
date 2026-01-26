@@ -32,8 +32,8 @@ const Signup = async (req, res) => {
 
     res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
@@ -78,7 +78,7 @@ const Signin = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
