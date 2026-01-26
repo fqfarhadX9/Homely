@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import logo from '../assets/Homely (1).png'
-// import logo2 from '../assets/Homely.png'
 import { FiSearch } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
@@ -20,6 +18,7 @@ import { useContext } from 'react';
 import { AuthDataContext } from '../context/AuthDataContext';
 import { UserDataContext } from '../context/UserDataContext';
 import { ListingDataContext } from '../context/ListingDataContext';
+import { toast } from 'react-toastify'
 
 function Nav() {
     const [showpopup, setShowpopup] = useState(false);
@@ -37,6 +36,10 @@ function Nav() {
             const response = await axios.post(serverUrl + '/api/auth/logout', {withCredentials: true});
             console.log("Logout endpoint triggered:", response);
             setUserData(null);
+            toast.success("Logged out successfully");
+            setTimeout(() => {
+             navigate("/");
+        }   , 1200);
         } catch (error) {
             console.log("Logout Error:", error);
         }
@@ -67,12 +70,12 @@ function Nav() {
     <div className='fixed top-0 bg-[white] z-[20]'>
         <div className='w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] md:px-[40px] flex justify-between items-center'>
             <div>
-                <img src={logo} alt="Homely Logo" className='w-[120px]' />
+               <h1 className="text-2xl font-bold text-red-500">Homely</h1>
             </div>
             <div className='w-[35%] relative hidden md:block'>
                 <input type="text" className='w-[100%] px-[30px] py-[10px] border-[2px] border-[#bdbaba] outline-none overflow-auto
                 rounded-[30px] text-[17px]' placeholder='Any Where  |  Any Location  |  Any City' onChange={(e) => setSearchInput(e.target.value)}  value={searchInput}/>
-                <button className='absolute p-[10px] rounded-[50px] bg-[#ff0000] top-[5px] right-[3%]'><FiSearch className='text-[white] w-[20px] h-[20px]'/></button>
+                <button className='absolute p-[10px] rounded-[50px] bg-red-500 top-[5px] right-[3%]'><FiSearch className='text-[white] w-[20px] h-[20px]'/></button>
             </div>
             <div className='flex items-center justify-center gap-[10px] relative'>
                 <span className='text-[18px] rounded-[50px] cursor-pointer hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block' onClick={()=>{navigate("/listingpage1"); setShowpopup(false)}}>Become a Host</span>
@@ -86,7 +89,7 @@ function Nav() {
                 {showpopup && <div className='w-[220px] h-[250px] bg-slate-50 absolute top-[110%] right-[3%] md:right-[10%] border-[#aaa9a9] border-[1px] z-10 rounded-lg'>
                     <ul className='w-[100%] h-[100%] text-[17px] py-[10px] flex items-start justify-around flex-col'>
                        {!userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => navigate("/login")}>Login</li>}
-                        {userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={()=>{handleLogout; setShowpopup(false)}}>Logout</li>}
+                        {userData && <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={()=>{handleLogout(); setShowpopup(false)}}>Logout</li>}
                         <div className='w-[100%] h-[1px] bg-[#c1c0c0]'></div>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/listingpage1"); setShowpopup(false)}}>Become a Host</li>
                         <li className='w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer' onClick={() => {navigate("/mylisting"); setShowpopup(false)}}>My Listing</li>

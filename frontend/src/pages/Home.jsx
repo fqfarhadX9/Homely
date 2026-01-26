@@ -5,6 +5,7 @@ import { UserDataContext } from '../context/UserDataContext';
 import Card from '../components/Card';
 import Footer from '../components/Footer';
 
+
 function Home() {
   const { newListingData } = useContext(ListingDataContext);
   const { userData } = useContext(UserDataContext);
