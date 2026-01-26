@@ -23,12 +23,12 @@ function Signup() {
       const response = await axios.post(serverUrl + '/api/auth/signup', {
         name, email, password
       })
-      setUserData(response.data.user)
+      setUserData({ user: response.data.user });
       setLoading(false)
       toast.success("Signup Successfully")
       setTimeout(() => {
        navigate("/")
-      }, 2100)
+      }, 1000)
     } catch (error) {
       setLoading(false)
       toast.error("Signup Failed")
