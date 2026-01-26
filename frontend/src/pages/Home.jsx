@@ -23,6 +23,9 @@ function Home() {
   setListings(mergedListings);
 }, [newListingData, userData?.user?.booking?.length]); 
 
+if (!userData) {
+  return <div>Loading...</div>
+}
 
   return (
     <div>

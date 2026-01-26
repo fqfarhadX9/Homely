@@ -28,7 +28,7 @@ function Signup() {
       toast.success("Signup Successfully")
       setTimeout(() => {
        navigate("/")
-      }, 2000)
+      }, 2100)
     } catch (error) {
       setLoading(false)
       toast.error("Signup Failed")

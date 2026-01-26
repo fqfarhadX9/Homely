@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AuthDataContext } from "./AuthDataContext"; 
 
 function AuthContext({ children }) {
-    const serverUrl = "https://homely-backend-eptt.onrender.com";
+    const serverUrl = "http://localhost:8000";
     const [loading, setLoading] = useState(false);
     const value = {
         serverUrl,
