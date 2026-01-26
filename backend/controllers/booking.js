@@ -26,6 +26,12 @@ const createBooking = async (req, res) => {
       guest: req.user._id,
     });
 
+    await booking.populate([
+      { path: "host", select: "email" },
+      { path: "guest", select: "email" },
+      { path: "listing", select: "title image1" }
+    ]);
+
     await User.findByIdAndUpdate(
       req.user._id,
       { $push: { booking: booking._id } }
@@ -48,21 +54,21 @@ const createBooking = async (req, res) => {
 };
 
 
-const getMyBooking = async (req, res) => {
-  try {
-    const booking = await Booking.findOne({ guest: req.user._id })
-      .sort({ updatedAt: -1 })
-      .populate("guest", "email")
-      .populate("listing");
+// const getMyBooking = async (req, res) => {
+//   try {
+//     const booking = await Booking.findOne({ guest: req.user._id })
+//       .sort({ updatedAt: -1 })
+//       .populate("guest", "email")
+//       .populate("listing");
 
-    if (!booking)
-      return res.status(404).json({ message: "No booking found" });
+//     if (!booking)
+//       return res.status(404).json({ message: "No booking found" });
 
-    res.status(200).json({ booking });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+//     res.status(200).json({ booking });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 
 const cancelBooking = async (req, res) => {
@@ -96,31 +102,31 @@ const cancelBooking = async (req, res) => {
 };
 
 
-const rateBooking = async (req, res) => {
-  try {
-    const { rating } = req.body;
+// const rateBooking = async (req, res) => {
+//   try {
+//     const { rating } = req.body;
 
-    const booking = await Booking.findOneAndUpdate(
-      { guest: req.user._id },
-      { rating },
-      { new: true } 
-    )
-      .populate("guest", "email")
-      .populate("listing");
+//     const booking = await Booking.findOneAndUpdate(
+//       { guest: req.user._id },
+//       { rating },
+//       { new: true } 
+//     )
+//       .populate("guest", "email")
+//       .populate("listing");
 
-    if (!booking)
-      return res.status(404).json({ message: "Booking not found" });
+//     if (!booking)
+//       return res.status(404).json({ message: "Booking not found" });
 
-    res.status(200).json({ booking });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+//     res.status(200).json({ booking });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 
 module.exports = {
   createBooking,
-  getMyBooking,
+  // getMyBooking,
   cancelBooking,
-  rateBooking,
+  // rateBooking,
 };

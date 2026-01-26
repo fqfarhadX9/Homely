@@ -128,6 +128,30 @@ const deleteListing = async (req, res) => {
   }
 }
 
+const ratedListing = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { ratings } = req.body;
+
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      return res.status(404).json({ message: "Listing not found" });
+    }
+
+    listing.ratings = ratings;;
+    await listing.save();
+
+    return res.status(200).json({
+      message: "Listing rated successfully",
+      listing
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Rate listing error: ${error.message}`
+    });
+  }
+}
+
 const searchListings = async (req, res) => {
   try {
     const { query } = req.query;
@@ -160,5 +184,6 @@ module.exports = {
   findListingById,
   updateListing,
   deleteListing,
-  searchListings
+  searchListings,
+  ratedListing
 }
